@@ -14,11 +14,11 @@ import {
 import { Button } from "@/components/ui/button"
 import { SettingsIcon } from "lucide-react"
 import { config } from "@/constants/config"
+import { useSede } from "@/hooks/useSede"
 
-export default function Settings({ sede, setSede }: {
-    sede: string;
-    setSede: (name: string) => void;
-}) {
+export default function Settings() {
+    const { localSede, changeSede } = useSede()
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -30,16 +30,25 @@ export default function Settings({ sede, setSede }: {
                 <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
-                        Perfil
+                        lpignataro@megatlon.com.ar
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                         Cerrar sesion
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
-                <DropdownMenuLabel>Sedes</DropdownMenuLabel>
+                 <DropdownMenuLabel>Megatlon</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuRadioGroup value={sede} onValueChange={setSede}>
-                    {config.sedes.sort((a, b) => a.name.localeCompare(b.name)).map((sede, i) => (
+                <DropdownMenuRadioGroup value={localSede} onValueChange={changeSede}>
+                    {config.sedes.megatlon.sort((a, b) => a.name.localeCompare(b.name)).map((sede, i) => (
+                        <DropdownMenuRadioItem value={sede.name} key={i}>
+                            {sede.name}
+                        </DropdownMenuRadioItem>
+                    ))}
+                </DropdownMenuRadioGroup>
+                <DropdownMenuLabel>Fiter</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuRadioGroup value={localSede} onValueChange={changeSede}>
+                    {config.sedes.fiter.sort((a, b) => a.name.localeCompare(b.name)).map((sede, i) => (
                         <DropdownMenuRadioItem value={sede.name} key={i}>
                             {sede.name}
                         </DropdownMenuRadioItem>

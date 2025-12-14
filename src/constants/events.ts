@@ -1,3 +1,1 @@
-export const events = {
-    
-}
+export const events = {}

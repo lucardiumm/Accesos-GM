@@ -2,13 +2,14 @@
 
 import Image from "next/image"
 import Settings from "@/components/core/Settings"
+import { Modal } from "./Modal";
+import { useSede } from "@/hooks/useSede";
 
-export default function Header({ sede, setSede }: {
-    sede: string;
-    setSede: (name: string) => void;
-}) {
+export default function Header() {
+    const { localSede } = useSede()
+
     return (
-        <header className={'w-screen h-20 border-b-[1.5px] flex-row flex border-b-gray-200 justify-between items-center'}>
+        <header className={'w-full h-20 border-b-[1.5px] flex-row flex border-b-gray-200 justify-between items-center'}>
             <div className={'ml-7'}>
                 <Image
                     width={500}
@@ -19,10 +20,11 @@ export default function Header({ sede, setSede }: {
                 />
             </div>
 
-            <h1 className={'font-semibold text-xl'}>{sede}</h1>
+            <h1 className={'font-semibold text-xl'}>{localSede}</h1>
 
-            <div className={'mr-7'}>
-                <Settings sede={sede} setSede={setSede} />
+            <div className={'mr-7 gap-5 flex-row flex'}>
+                {localSede && <Modal />}
+                <Settings />
             </div>
         </header>
     )

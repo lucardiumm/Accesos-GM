@@ -1,58 +1,55 @@
 'use client'
 
-import Header from "@/components/core/Header"
-import Lister from "@/components/core/Lister"
-import Molinete from "@/components/core/Molinete"
-import { config } from "@/constants/config"
+import Sedes from "@/components/core/Sedes"
+import { Button } from "@/components/ui/button"
 import { useSede } from "@/hooks/useSede"
-import { redirect } from "next/navigation"
-import { useState } from "react"
+import Image from "next/image"
+import { redirect, RedirectType } from "next/navigation"
+import { useEffect, useState } from "react"
+import GM from '$/public/png/Logo.png'
+import { config } from "@/constants/config"
 
 export default function Page() {
     const { localSede } = useSede()
 
     const [logged, setLogged] = useState<boolean>(true)
-    const [sede, setSede] = useState<string>(localSede)
-
-    const checkSede = () => {
-        if (config.sedes.some(({ name }) => name === sede)) {
-            return true
-        }
-        
-        return false
-    }
-
-    const handleSedeChange = (name: string) => {
-        setSede(name)
-        localStorage.setItem('Sede', name)
-    }
     
     if (!logged) {
         return redirect('https://account.microsoft.com/account?lang=es-es')
     }
 
+    useEffect(() => {
+        if (localSede?.name) {
+            const element = config.sedes.megatlon.filter((value) => value.name === localSede?.name)
+
+            redirect(`/megatlon/${element[0].id}`)
+        }
+    }, [localSede?.name])
+
     return (
         <>
-            <Header sede={sede} setSede={handleSedeChange} />
-
-            <main className={'flex flex-1 flex-col items-center justify-center w-screen'}>
-                {checkSede() ?
-                (
-                    <div className={'flex lg:flex-row flex-col gap-14 my-10 md:my-32 justify-center'}>
-                        <section className={'flex flex-col gap-7 justify-center content-center'}>
-                            <div className={'md:flex-row flex-col flex gap-10'}>
-                                {config.molinetes.map((_, i) => (
-                                    <Molinete id={_.id} pfp={'https://mega-ac.azurewebsites.net/assets/images/no-picture.jpg'} nombre={'El Chamo'} key={i} />
-                                ))}
-                            </div>
-                        </section>
-                        <section className={'flex'}>
-                            <Lister />
-                        </section>
+            <main className={'flex flex-1 flex-col items-center justify-center w-screen h-screen'}>
+                <div className={'gap-7 flex flex-col'}>
+                    <div className={'gap-5'}>
+                        <Image 
+                            width={300}
+                            height={150}
+                            alt={'GRUPOMEGATLON'}
+                            src={GM}
+                            className={'w-52'}
+                        />
+                        
+                        <div className={'w-102 h-[0.25px] bg-black'} />
                     </div>
-                ) : (
-                    <p className={'fixed top-1/2'}>No se seleccionó ninguna sede.</p>
-                )}
+
+                    <div className={'gap-5 flex flex-col items-center justify-center'}>
+                        <Sedes />
+
+                        <Button disabled={localSede?.name.length > 0 ? false : true} onClick={() => redirect(``, RedirectType.replace)} className={'w-40 cursor-pointer'}>
+                            <p>Continuar</p>
+                        </Button>
+                    </div>
+                </div>
             </main>
         </>
     )

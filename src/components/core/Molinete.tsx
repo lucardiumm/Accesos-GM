@@ -22,7 +22,7 @@ export default function Molinete({
     return (
         <Card className={'w-60 h-80 md:w-72 md:h-102 flex p-5 justify-center'}>
             <CardHeader className={'justify-center items-center'}>
-                <CardTitle>Molinete {id}</CardTitle>
+                <CardTitle className={'text-xl'}>Molinete {id}</CardTitle>
             </CardHeader>
             <CardContent className={'justify-center items-center flex flex-col gap-5'}>
                 <Image

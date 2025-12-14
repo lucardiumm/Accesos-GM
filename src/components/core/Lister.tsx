@@ -9,9 +9,18 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Button } from "../ui/button"
+import { Socio } from "@/types/include";
+import { useEffect, useState } from "react";
+import moment from 'moment'
 
-export default function Lister() {
+export default function Lister({ list }: {
+    list: Socio[];
+}) {
+    const currentTime = () => {
+        const aDate = new Date(Date.now())
+        return `${aDate.getHours()}:${aDate.getMinutes()}`
+    }
+
     return (
         <Table>
             <TableCaption>Registro de ingreso</TableCaption>
@@ -26,16 +35,32 @@ export default function Lister() {
                     <TableHead>Resultado</TableHead>
                 </TableRow>
             </TableHeader>
-            <TableBody>
-                <TableRow>
-                    <TableCell>10:43</TableCell>
-                    <TableCell>99-250234</TableCell>
-                    <TableCell>46827182</TableCell>
-                    <TableCell>Leo El Chamo</TableCell>
-                    <TableCell>27/12/2026</TableCell>
-                    <TableCell>Concedido</TableCell>
-                    <TableCell>ok</TableCell>
-                </TableRow>
+            <TableBody className={''}>
+                {list.map((socio, i) => (
+                    <TableRow key={i} className={false ? '' : ''}>
+                        <TableCell>
+                            {currentTime()}
+                        </TableCell>
+                        <TableCell>
+                            {socio.ns}
+                        </TableCell>
+                        <TableCell>
+                            {socio.doc}
+                        </TableCell>
+                        <TableCell>
+                            {socio.nc}
+                        </TableCell>
+                        <TableCell>
+                            <b>{socio.vto}</b>
+                        </TableCell>
+                        <TableCell>
+                            {moment().isAfter(moment(socio.vto, 'L')) ? 'CONCEDIDO' : 'DENEGADO'}
+                        </TableCell>
+                        <TableCell>
+                            {socio.doc}
+                        </TableCell>
+                    </TableRow>
+                ))}
             </TableBody>
         </Table>
     )
