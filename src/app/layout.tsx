@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import "@/styles/globals.css"
+import { SedeProvider } from "@/contexts/SedeContext"
 
 export const metadata: Metadata = {
   title: "Accesos - GM",
@@ -16,7 +17,9 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
-        {children}
+        <SedeProvider>
+          {children}
+        </SedeProvider>
       </body>
     </html>
   );

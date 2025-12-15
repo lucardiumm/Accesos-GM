@@ -1,11 +1,11 @@
-import { AES } from "crypto-js";
+import jwt from 'jsonwebtoken'
 
 export async function POST(
     request: Request
 ) {
     const { object } = await request.json()
 
-    const encrypted = AES.encrypt(JSON.stringify(object), process.env.SECRET_KEY as string).toString()
+    const encrypted = jwt.sign(object, process.env.SECRET_KEY as string)
 
     return Response.json({
         text: encrypted,

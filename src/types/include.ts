@@ -6,6 +6,13 @@ export type Socio = {
 }
 
 export type Sede = {
-    hasChosen: boolean;
     name: string;
+}
+
+export type SedeContextType = {
+    sede: string;
+    hasEntered: boolean;
+    empresa: string;
+    changeSede: (name: string, empresa: string) => void;
+    setHasEntered: (value: boolean) => void;
 }
